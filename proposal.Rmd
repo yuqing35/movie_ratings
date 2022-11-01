@@ -6,15 +6,17 @@ We are interested in the factors that may influence the ratings of a film (e.g. 
 
 Considering genres, documentary movies may be easier to obtain a high rating. On the one hand, audiences would easily resonate with this type of film which is more related to their real life. On the other hand, audiences will be more tolerant of filmmaking, for example, they won’t expect to see flashy special effects in a documentary movie. 
 
-The movie duration may also influence the ratings. The longer the movie, the easier it is for people to lose their patience. For instance, in a dull movie with a longer running time, people might get bored or even doze off. The audience will question whether the film’s pace drags on too much for a long film. And a short movie usually can’t give a complete and intriguing story. However, audiences would not be necessarily dissuaded from seeing the movie on the basis of its length. We wonder if there exists a reasonable duration for movies.
+The movie duration may also influence the ratings. The longer the movie, the easier it is for people to lose their patience. For instance, in a dull movie with a longer running time, people might get bored or even doze off. The audience will question whether the film’s pace drags on too much for a long film. And a short movie usually can’t give a complete background. We wonder if there exists a reasonable duration for movies.
 
 Other factors we might consider include a comparison between ratings of “classical movies” (e.g., Titanic, Forrest Gump) vs “modern movies” (e.g., Spider-Man, Parasite). In addition, we can compare the ratings of movies produced in different languages/ regions. Besides, we are curious about whether the ratings are related to production companies. For instance, is DreamWorks better than Disney?
 
 
 ## Data availability
 
-[IMDb Datasets](https://www.imdb.com/interfaces/)         
+1.[IMDb Datasets](https://www.imdb.com/interfaces/)         
 
 Collected through their users and their user-generated content. Copyright owned by IMDb. Each dataset is contained in a gzipped, tsv formatted file in the UTF-8 character set. The data is refreshed daily. 
+
+2.[Best movie by year Netflix & Best movie Netflix](https://data.world/gonzandrobles/netflix-movies-and-series)
 
 
