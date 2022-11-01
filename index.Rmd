@@ -1,6 +1,6 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAMES HERE"
+title: "Facters Affecting Movie Ratings"
+author: "Jingyi Feng, Yuqing Hong, Siyu Shen"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
