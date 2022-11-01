@@ -19,17 +19,19 @@
 * [IMDb Datasets](https://www.imdb.com/interfaces/)         
 
   + Collected by IMDb organization through their users and their user-generated content. Copyright owned by IMDb. We believe IMDb is a reliable source for getting rating information.
-  + Each dataset is in a gzipped, tsv formatted file in the UTF-8 character set. We are going to import using [ggplot2movies](https://cran.r-project.org/web/packages/ggplot2movies/index.html) package in R. 
+  + Each dataset is in a gzipped, tsv formatted file in the UTF-8 character set. After unzipping those files, they can be imported easily by ‘read_tsv’ in the ‘‘readr’ package. Also, we could import them by using the [ggplot2movies](https://cran.r-project.org/web/packages/ggplot2movies/index.html) package in R directly.  
   + The data is refreshed daily. 
-  +We consider using this source because it contains up-to-date movie ratings collected directly from the users. In addition to movie ratings, it also provides information such as the title, region, language, release year, genres associated with the title, number of votes, etc. Then we’ll try to visualize the relationship between each factor and ratings. For example, we will compare movies with different genres (e.g., whether documentary movies would generally have higher ratings). 
+  + We consider using this source because it contains up-to-date movie ratings collected directly from the users. In addition to movie ratings, it also provides information such as the title, region, language, release year, genres associated with the title, number of votes, etc. Then we’ll try to visualize the relationship between each factor and ratings. For example, we will compare movies with different genres (e.g., whether documentary movies would generally have higher ratings). 
 
-
+<br/>
 
 * [MovieLens 25M Dataset](https://grouplens.org/datasets/movielens/)
-  + These datasets were collected from MovieLens by GroupLens. GroupLens is a research lab in the Department of Computer Science and Engineering at the University of Minnesota. 
-  + There are 6 different datasets, which contain over 25 million titles of movies and their genres, the ratings of the movies, and so on. 
-  + Because the variety and number of movies in this dataset are large, the results we got from this dataset would be more accurate and more convincing. And we consider analyzing the genres 
-  + The format of this dataset is ‘csv’ file, which is easy to read by using ‘readr’ package in RStudio. 
+  
+  + These datasets were collected from MovieLens by GroupLens. GroupLens is a research lab in the Department of Computer Science and Engineering at the University of Minnesota. There were more than 6700 users selected, and users were selected at random. All selected users had rated at least 20 movies.
+  + There are 6 different datasets are generated, which contain over 25 million ratings across 62423 movies and their genres. We would mainly focus on movie.csv and rating.csv. We will combine the two tables by movies’ unique ID (using the “movieId” column). 
+  + Because the variety and number of movies in this dataset are large, the results we got from this dataset would be more accurate and more convincing. And we could use this dataset to analyze the relationship between genres and ratings. 
+  + These datasets are ‘CSV’ files, which can be imported easily by ‘read_csv’ in the ‘‘readr’ package in RStudio. 
+
  
 
 
