@@ -2,21 +2,35 @@
 
 ## Research topic
 
-We are interested in the factors that may influence the ratings of a film (e.g. release time, genre, movie duration). Are there certain features that are important for a film to have high ratings? For example, we guess that if a movie is released during the holiday seasons (e.g., Thanksgiving, Christmas) then the ratings might be higher than those released at other times because people have an elevated mood and hence might tolerate the quality of the movie. Also, depending on the year the movie was released, the audience’s judging criteria would also vary. For old movies, technological lag makes people care more about storytelling. Now, people may judge from more aspects. 
+|   We are interested in the factors that may influence the ratings of a film (e.g. release time, genre, movie duration). 
 
-Considering genres, documentary movies may be easier to obtain a high rating. On the one hand, audiences would easily resonate with this type of film which is more related to their real life. On the other hand, audiences will be more tolerant of filmmaking, for example, they won’t expect to see flashy special effects in a documentary movie. 
+|   We guess that if a movie is released during the holiday seasons (e.g., Thanksgiving, Christmas) then the ratings might be higher than those released at other times because people have an elevated mood and hence might tolerate the quality of the movie. Also, depending on the year the movie was released, the audience’s judging criteria would also vary. For old movies, technological lag makes people care more about storytelling. Now, people may judge from more aspects. 
 
-The movie duration may also influence the ratings. The longer the movie, the easier it is for people to lose their patience. For instance, in a dull movie with a longer running time, people might get bored or even doze off. The audience will question whether the film’s pace drags on too much for a long film. And a short movie usually can’t give a complete background. We wonder if there exists a reasonable duration for movies.
+|   Considering genres, documentary movies may be easier to obtain a high rating. On the one hand, audiences would easily resonate with this type of film which is more related to their real life. On the other hand, audiences will be more tolerant of filmmaking, for example, they won’t expect to see flashy special effects in a documentary movie. 
 
-Other factors we might consider include a comparison between ratings of “classical movies” (e.g., Titanic, Forrest Gump) vs “modern movies” (e.g., Spider-Man, Parasite). In addition, we can compare the ratings of movies produced in different languages/ regions. Besides, we are curious about whether the ratings are related to production companies. For instance, is DreamWorks better than Disney?
+|   The movie duration may also influence the ratings. The longer the movie, the easier it is for people to lose their patience. For instance, in a dull movie with a longer running time, people might get bored or even doze off. The audience will question whether the film’s pace drags on too much for a long film. And a short movie usually can’t give a complete background. We wonder if there exists a reasonable duration for movies.
+
+|   In addition, we can compare the ratings of movies produced in different regions or production companies. Considering all those factors, we are curious about that are there certain features that are important for a film to have high ratings. We’ll try to answer this question by analyzing related datasets.
+
 
 
 ## Data availability
 
-1.[IMDb Datasets](https://www.imdb.com/interfaces/)         
+* [IMDb Datasets](https://www.imdb.com/interfaces/)         
 
-Collected through their users and their user-generated content. Copyright owned by IMDb. Each dataset is contained in a gzipped, tsv formatted file in the UTF-8 character set. The data is refreshed daily. 
+  + Collected by IMDb organization through their users and their user-generated content. Copyright owned by IMDb. We believe IMDb is a reliable source for getting rating information.
+  + Each dataset is in a gzipped, tsv formatted file in the UTF-8 character set. We are going to import using [ggplot2movies](https://cran.r-project.org/web/packages/ggplot2movies/index.html) package in R. 
+  + The data is refreshed daily. 
+  +We consider using this source because it contains up-to-date movie ratings collected directly from the users. In addition to movie ratings, it also provides information such as the title, region, language, release year, genres associated with the title, number of votes, etc. Then we’ll try to visualize the relationship between each factor and ratings. For example, we will compare movies with different genres (e.g., whether documentary movies would generally have higher ratings). 
 
-2.[Best movie by year Netflix & Best movie Netflix](https://data.world/gonzandrobles/netflix-movies-and-series)
+
+
+* [MovieLens 25M Dataset](https://grouplens.org/datasets/movielens/)
+  + These datasets were collected from MovieLens by GroupLens. GroupLens is a research lab in the Department of Computer Science and Engineering at the University of Minnesota. 
+  + There are 6 different datasets, which contain over 25 million titles of movies and their genres, the ratings of the movies, and so on. 
+  + Because the variety and number of movies in this dataset are large, the results we got from this dataset would be more accurate and more convincing. And we consider analyzing the genres 
+  + The format of this dataset is ‘csv’ file, which is easy to read by using ‘readr’ package in RStudio. 
+ 
+
 
 
