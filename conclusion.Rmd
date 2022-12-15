@@ -1,2 +1,27 @@
 # Conclusion
 
+|     In this project, we explored two datasets to gain insights into the factors that influence movie ratings. We focused on three factors due to dataset restriction: movie length, release year, and genre. We used statistical analysis and data visualizations to examine the relationship between these factors and movie ratings.
+
+
+## Main takeaways
+
+|     Through exploring the IMDb movie dataset, we found that movie length has a slightly positive correlation with ratings (e.g., longer movies generally have higher ratings). We also found that movies released earlier than the 1950s have higher median ratings than more recent movies. We speculate that this is because people rated more tolerably towards older movies (given that the filming technology was limited at that time). 
+
+|     In addition, as we would expect, documentaries have the highest percentage of high ratings (above 8.5) than any of the other movie genres. documentary movies also have the lowest percentage of low ratings (below 5.0). On the contrary, action movies have the highest percentage of low ratings and the highest percentage of high ratings. The Chi-square test also confirms these conclusions. We speculate that this is because documentaries are easier to resonate with audiences and people would not expect flashy special effects. On the other hand, most action movies are commercial movies and tend to be cliche and lack originality. Hence, audiences tend to give lower ratings (or have higher expectations for these movies).
+
+|     However, in the MovieLens 25M Dataset, we can draw the same conclusion as the first dataset, that is, documentaries tend to score higher in the eyes of the public because they are authentic, and people tend to empathize with them. Action films, on the other hand, have a hard time being scored high.
+
+|     To sum up, if a movie with a longer duration, it will then have a certain tendency to score high. Secondly, people generally have some tolerance for old movies. Moreover, the genre of the movie also has an impact on the movie rating. Documentaries usually get higher ratings while action films do the opposite. 
+
+
+## Limitation
+
+|     One of the limitations is that due to time constraints, we are not able to find more data to examine our findings. It is possible that there are more factors influencing the ratings of a movie (e.g., language, director, actors). In addition, our visualizations do not include all the data in MovieLens 25M.  
+
+
+|     Limitation on the user’s location is also another issue that might lead to incomplete analysis. For example, the first data was collected from IMDb, however, its user audience is not necessarily spread worldwide. We know that, at least in China, most movie fans choose to use Douban (a Chinese social networking service that allows registered users to create content about films) to rate movies rather than IMDb. Also, the MovieLens 25M datasets were collected by a research lab at the University of Minnesota, it is possible that the location of users in the data will be more concentrated in the North American region. So this might lead to a bias in our judgment of the movie score. If we can get a rough idea of the region where the user is located, we can avoid this situation and have a better understanding of the movie rating.
+
+## Future Work
+
+|     Given time and space constraints, we are not able to explore the two datasets in full length (especially for MovieLens 25M Dataset). To further enhance the credibility of our findings, we would train machine learning models (e.g., multiple linear regression, random forest, ensemble learning) to predict movie ratings using multiple features including release year, movie length, genre, budget, etc. We can also use dimension reduction like PCA to see which features are most important in predicting ratings.
+
