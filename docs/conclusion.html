@@ -99,7 +99,12 @@
 <li class="chapter" data-level="4.3" data-path="results.html"><a href="results.html#relationship-between-movie-genre-and-rating"><i class="fa fa-check"></i><b>4.3</b> Relationship between movie genre and rating</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>5</b> Interactive component</a></li>
-<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
+<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="conclusion.html"><a href="conclusion.html#main-takeaways"><i class="fa fa-check"></i><b>6.1</b> Main takeaways</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusion.html"><a href="conclusion.html#limitation"><i class="fa fa-check"></i><b>6.2</b> Limitation</a></li>
+<li class="chapter" data-level="6.3" data-path="conclusion.html"><a href="conclusion.html#future-work"><i class="fa fa-check"></i><b>6.3</b> Future Work</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -121,7 +126,24 @@
             <section class="normal" id="section-">
 <div id="conclusion" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Conclusion<a href="conclusion.html#conclusion" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="line-block">    In this project, we explored two datasets to gain insights into the factors that influence movie ratings. We focused on three factors due to dataset restriction: movie length, release year, and genre. We used statistical analysis and data visualizations to examine the relationship between these factors and movie ratings.</div>
+<div id="main-takeaways" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Main takeaways<a href="conclusion.html#main-takeaways" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="line-block">    Through exploring the IMDb movie dataset, we found that movie length has a slightly positive correlation with ratings (e.g., longer movies generally have higher ratings). We also found that movies released earlier than the 1950s have higher median ratings than more recent movies. We speculate that this is because people rated more tolerably towards older movies (given that the filming technology was limited at that time).</div>
+<div class="line-block">    In addition, as we would expect, documentaries have the highest percentage of high ratings (above 8.5) than any of the other movie genres. documentary movies also have the lowest percentage of low ratings (below 5.0). On the contrary, action movies have the highest percentage of low ratings and the highest percentage of high ratings. The Chi-square test also confirms these conclusions. We speculate that this is because documentaries are easier to resonate with audiences and people would not expect flashy special effects. On the other hand, most action movies are commercial movies and tend to be cliche and lack originality. Hence, audiences tend to give lower ratings (or have higher expectations for these movies).</div>
+<div class="line-block">    However, in the MovieLens 25M Dataset, we can draw the same conclusion as the first dataset, that is, documentaries tend to score higher in the eyes of the public because they are authentic, and people tend to empathize with them. Action films, on the other hand, have a hard time being scored high.</div>
+<div class="line-block">    To sum up, if a movie with a longer duration, it will then have a certain tendency to score high. Secondly, people generally have some tolerance for old movies. Moreover, the genre of the movie also has an impact on the movie rating. Documentaries usually get higher ratings while action films do the opposite.</div>
+</div>
+<div id="limitation" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Limitation<a href="conclusion.html#limitation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="line-block">    One of the limitations is that due to time constraints, we are not able to find more data to examine our findings. It is possible that there are more factors influencing the ratings of a movie (e.g., language, director, actors). In addition, our visualizations do not include all the data in MovieLens 25M.</div>
+<div class="line-block">    Limitation on the user’s location is also another issue that might lead to incomplete analysis. For example, the first data was collected from IMDb, however, its user audience is not necessarily spread worldwide. We know that, at least in China, most movie fans choose to use Douban (a Chinese social networking service that allows registered users to create content about films) to rate movies rather than IMDb. Also, the MovieLens 25M datasets were collected by a research lab at the University of Minnesota, it is possible that the location of users in the data will be more concentrated in the North American region. So this might lead to a bias in our judgment of the movie score. If we can get a rough idea of the region where the user is located, we can avoid this situation and have a better understanding of the movie rating.</div>
+</div>
+<div id="future-work" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Future Work<a href="conclusion.html#future-work" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="line-block">    Given time and space constraints, we are not able to explore the two datasets in full length (especially for MovieLens 25M Dataset). To further enhance the credibility of our findings, we would train machine learning models (e.g., multiple linear regression, random forest, ensemble learning) to predict movie ratings using multiple features including release year, movie length, genre, budget, etc. We can also use dimension reduction like PCA to see which features are most important in predicting ratings.</div>
 
+</div>
 </div>
             </section>
 

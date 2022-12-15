@@ -16,3 +16,6 @@ relationship-between-movie-release-time-and-rating
 relationship-between-movie-genre-and-rating
 interactive-component
 conclusion
+main-takeaways
+limitation
+future-work
