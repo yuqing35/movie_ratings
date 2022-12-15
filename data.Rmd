@@ -1,9 +1,7 @@
-```{r setup, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 # Data 
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
+
 library(dplyr)
 library(tibble)
 library(tidyr)
@@ -46,7 +44,8 @@ library(gridExtra)
 
 |       Take a look of the original data which is messy.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
+
 df<-ggplot2movies::movies 
 head(df,6)
 ```
@@ -71,11 +70,40 @@ head(df1,6)
 
 ### [MovieLens 25M Dataset](https://grouplens.org/datasets/movielens/)
 
+|       We would mainly focus on the files movie.csv and rating.csv. There are 25 million rows and 4 columns in rating.csv, each row represents one rating of a movie rated by one user. There are 62423 rows and 3 columns in movies.csv, one movie can have multiple genres, and each genre name is separated by "|" coded in one column. 
+
+|       Since the original data files are too large to upload and lead to overplotting, we decide to only process a random sample of them by using slice_sample(). 
+
+|       The ratings and genres of a movie are in separate files, so we need first combine the two data sets by movies' ID which is unique and consistent. For every movie, we obtain a lot of scores rated by different users, we choose to compute the average rating for each movie.
+
+```{r}
+#read files
+df_mean_rating <- read.csv('average_rating_byMID.csv')
+head(df_mean_rating)
+```
+|       As we can seen, one movie can have multiple genres, and each genre name is separated by "|" coded in one column. Since we are exploring the impact of genres on ratings, we separate those movies into different rows that each contains only one type of movie genres. Finally, we obtain the clean data that we'll work with in the following parts.
+
+```{r, warning=FALSE, message=FALSE}
+
+df_genres <- df_mean_rating %>%
+  separate_rows(genres)
+
+df_genres <- df_genres %>% filter(genres != "Noir" & genres != "Fi" & genres != "IMAX")
+
+#Rename
+df_genres$genres[df_genres$genres == "Film"] <- "Film-Noir"
+df_genres$genres[df_genres$genres == "Sci"] <- "Sci-Fi"
+
+head(df_genres)
+
+```
+
 ## Missing value analysis
 
 ### [IMDb Datasets](https://www.imdb.com/interfaces/)  
 
 |       The columns/variables we used have no missing values.
+
 
 ```{r}
 #missing pattern
@@ -83,5 +111,18 @@ mv<-ggplot2movies::movies %>% select(-(7:17),-budget)
 
 library(redav)
 plot_missing(mv, percent = FALSE)
+
+```
+
+### [MovieLens 25M Dataset](https://grouplens.org/datasets/movielens/)
+
+
+|       The columns/variables we used have no missing values.
+
+
+```{r}
+#missing pattern
+
+plot_missing(df_genres, percent = FALSE)
 
 ```
