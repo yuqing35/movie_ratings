@@ -1,8 +1,87 @@
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
 # Data 
+
+```{r}
+library(dplyr)
+library(tibble)
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+library(forcats)
+library(ggplot2movies)
+library(grid)
+library(gridExtra)
+
+```
 
 ## Sources
 
+* [IMDb Datasets](https://www.imdb.com/interfaces/)   
+
+|       This data is collected by IMDb organization through their users and their user-generated content. Copyright owned by IMDb. We believe IMDb is a reliable source for getting rating information.
+
+|       We consider using this source because it is one of the biggest movie database on the web and is collected directly from the users. In addition to movie ratings, it also provides information such as the title, length, release year, genres associated with the title, number of votes, etc. 
+
+|       We choose to import this data by using the [ggplot2movies](https://cran.r-project.org/web/packages/ggplot2movies/index.html) package in R directly since it is the easiest way. The data is published on 2015-08-25 and the maintainer is Hadley Wickham. The dataset contains 58,788 rows and 24 columns. Each column is either character type or numeric/integer type. Movie genres ("Action", "Animation", "Comedy", "Drama", "Documentary", "Romance", "Short") are one-hot encoded and there exists movies with more than one genres. 
+
+<br/>
+
+* [MovieLens 25M Dataset](https://grouplens.org/datasets/movielens/)
+
+|       These datasets were collected from MovieLens by GroupLens. GroupLens is a research lab in the Department of Computer Science and Engineering at the University of Minnesota. There were 162541 users selected, and users were selected at random. All selected users had rated at least 20 movies. Because the variety and number of movies in this dataset are large, the results we got from this dataset would be more accurate and more convincing. 
+
+|       This dataset was generated on November 21, 2019. There are 6 different datasets generated, which contain over 25 million ratings across 62423 movies and their genres. We would mainly focus on movie.csv and rating.csv. We import the datasets by ‘read_csv’ in the ‘readr’ package and combine the two tables by movies’ unique ID (using the “movieId” column). 
+
+|       There are 25000095 rows and 4 columns in rating.csv and all the columns are numeric/integer type. Each row represents one rating of a movie rated by one user. There are 62423 rows and 3 columns in movies.csv and the columns are either character or numeric/integer type. One movie can have multiple genres, and each genre name is separated by "|" coded in one column. And we first need to separate these genres into different columns. 
+
+
+
 ## Cleaning / transformation
+
+|       Two data sets are used in this project, we will discuss them separately.
+
+### [IMDb Datasets](https://www.imdb.com/interfaces/)    
+
+|       Take a look of the original data which is messy.
+
+```{r}
+df<-ggplot2movies::movies 
+head(df,6)
+```
+
+|       In this data set, each genre type of movies is set to a variable. However, they are not different variables, they should be values of a common variable "genres". Thus, we use pivot_longer to transform the data. (We only display columns that shows the transformation here.)
+
+```{r}
+df1<-df %>%
+  select(title,year,length,rating, Action, Animation, Comedy, Drama, Documentary, Romance) %>%
+  pivot_longer(cols = 5:10, names_to = "genres",values_to = "value") %>%
+  filter(value == 1) %>%
+  select(-value) %>%
+  select(title, rating, genres)
+
+head(df1,6) 
+```
+
+|       The columns r1-10 give percentile of users who rated this movie a 1. Since we are exploring the impact of personal interests on movies' rating, we don't mind extreme or biased ratings. So we will ignore these variables.
+
+|       Also, we believe that the movies rated by less than 200 IMDB users are unrepresentative, so we use filter() on the column "votes" to remove those movies.
+
+
+### [MovieLens 25M Dataset](https://grouplens.org/datasets/movielens/)
 
 ## Missing value analysis
 
+### [IMDb Datasets](https://www.imdb.com/interfaces/)  
+
+|       The columns/variables we used have no missing values.
+
+```{r}
+#missing pattern
+mv<-ggplot2movies::movies %>% select(-(7:17),-budget)
+
+library(redav)
+plot_missing(mv, percent = FALSE)
+
+```
