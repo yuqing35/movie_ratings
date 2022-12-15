@@ -1,1 +1,305 @@
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
 # Results
+
+```{r}
+library(dplyr)
+library(tibble)
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+library(forcats)
+library(ggplot2movies)
+library(grid)
+library(gridExtra)
+
+```
+
+
+## Relationship between movie length and rating
+```{r, warning=FALSE, message=FALSE}
+movies <- na.omit(movies)
+genre <- rep(NA, nrow(movies))
+count <- rowSums(movies[, 18:24])
+genre[which(count > 1)] = "Mixed"
+genre[which(count < 1)] = "None"
+genre[which(count == 1 & movies$Action == 1)] = "Action"
+genre[which(count == 1 & movies$Animation == 1)] = "Animation"
+genre[which(count == 1 & movies$Comedy == 1)] = "Comedy"
+genre[which(count == 1 & movies$Drama == 1)] = "Drama"
+genre[which(count == 1 & movies$Documentary == 1)] = "Documentary"
+genre[which(count == 1 & movies$Romance == 1)] = "Romance"
+genre[which(count == 1 & movies$Short == 1)] = "Short"
+movies$genre<-as.factor(genre)
+```
+We start by plotting the following frequency histogram to see the distribution of the data, we observe that
+
+* We would expect that a standard movies have length around 90 to 120 minutes, but the plot shows a lot of outliers
+```{r, warning=FALSE, message=FALSE}
+
+
+p2 <- ggplot(movies, aes(x = length)) +
+  geom_histogram(binwidth = 0.5,boundary = 6) +
+  ggtitle("Number of movies by length") +
+  xlab("Movie length") +
+  ylab("Count of movies")
+
+p2
+```
+
+We decide to remove the those outliers (those outside fences).
+```{r, warning=FALSE, message=FALSE}
+## Remove outliers of movie length
+outliers <- boxplot(movies$length, plot=FALSE)$out
+df_clean <- movies[-which(movies$length %in% outliers),]
+
+ggplot(df_clean, aes(x = length)) +
+  geom_histogram(aes(y=after_stat(density)),binwidth = 0.5) +
+  stat_function(fun=dnorm, col = "red", args=list(mean(df_clean$length),sd(df_clean$length))) +
+  xlab("Movie length") +
+  ylab("Density") +
+  ggtitle("Density curve of movie length")
+```
+
+
+From the scatter plot, we can observe that there's a positive correlation between movie length and rating
+
+* Movies with length around 50 to 75 minutes have ratings all over the place
+* Movies with length longer than 125 minutes have higher ratings in general 
+* Movies with exceptionally high ratings (> 8) have all kinds of length 
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(df_clean,aes(x=length, y=rating)) +
+  geom_point(alpha=0.25, stroke=0) +
+  geom_smooth(method = "lm" ) +
+  ggtitle("Movie length v.s. rating") +
+  xlab("Movie length") +
+  ylab("Rating") +
+  theme_classic() 
+```
+
+Same conclusion can be drawn if we facet by movie genre
+
+* There seems to be a positive relationship between movie length and ratings (especially for "Action", "Comedy", "Drama")
+* Documentary and Animation does not show positive correlation 
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(df_clean,aes(x=length, y=rating)) +
+  geom_point(alpha=0.25, stroke=0) +
+  facet_wrap(~genre) + 
+  geom_smooth(method = "lm" ) +
+  ggtitle("Movie length vs. rating (facet by genre)") +
+  xlab("Movie length") +
+  ylab("Rating") +
+  theme_classic()
+```
+
+## Relationship between movie release time and rating
+
+We start by plotting the following frequency histograms to see the distribution of the data, we observe that
+
+* The distribution of movies by year is left-skewed (most of the movies in the dataset is released after 1990)
+
+```{r, warning=FALSE, message=FALSE}
+p1 <- ggplot(movies, aes(x = year)) +
+  geom_histogram(binwidth = 0.5,boundary = 6) +
+  ggtitle("Number of movies by year") +
+  xlab("Released year") +
+  ylab("Count of movies")
+
+p1
+```
+
+To inspect the relationship between ratings and release year, we decide to first round `year` into `decade` (e.g., 1990s means any year from 1990 to 1999), we can observe from the boxplot that movies released earlier than 1950s seems to have higher median rating than more recent movies. But recent movies have larger spread than earlier movies with respect to reatings.   
+
+```{r, warning=FALSE, message=FALSE}
+decade <- rep(NA, nrow(df_clean))
+decade[which(df_clean$year>=2000)]="2000s"
+decade[which(df_clean$year>=1990 & df_clean$year<2000)]="1990s"
+decade[which(df_clean$year>=1980 & df_clean$year<1990)]="1980s"
+decade[which(df_clean$year>=1970 & df_clean$year<1980)]="1970s"
+decade[which(df_clean$year>=1960 & df_clean$year<1970)]="1960s"
+decade[which(df_clean$year>=1950 & df_clean$year<1960)]="1950s"
+decade[which(df_clean$year>=1940 & df_clean$year<1950)]="1940s"
+decade[which(df_clean$year>=1930 & df_clean$year<1940)]="1930s"
+decade[which(df_clean$year>=1920 & df_clean$year<1930)]="1920s"
+decade[which(df_clean$year<1920)]="earlier than 1920s"
+df_clean$decade<-as.factor(decade)
+
+
+ggplot(df_clean, mapping = aes(x = rating, y =  fct_relevel(decade, "earlier than 1920s"))) +
+  geom_boxplot() +
+  ggtitle("Movie rating by decades (boxplot)") +
+  ylab("Year in decades") +
+  xlab("Rating")
+```
+
+
+Same conclusion can be drawn from the ridgeline plot.
+
+
+
+```{r, warning=FALSE, message=FALSE}
+library(ggridges)
+library(forcats)
+ggplot(df_clean, aes(x = rating, y = factor(round(year, -1)))) +
+  geom_density_ridges(fill = "lightblue") +
+  ggtitle("Movie rating by decades (ridgeline plot)") +
+  ylab("Year in decades")+
+  xlab("Rating")
+
+```
+
+## Relationship between movie genre and rating
+
+To reduce the impact of other factor, we mainly focus on the standard movies that have length between 90 to 120 minutes and were released between 2000 and 2010.
+
+We order the genres in decreasing order of high rating (above 8.5 points) percentage from top to bottom. We can observe that over 10 percent Documentary movies obtained ratings above 8.5 out of 10, which is a high proportion comparing to other genres. Also, it is obvious that only a small percentage of Documentary movies obtained low rating (below 5 points). By contrast, nearly 40% of Action Movies get low ratings(below 5 points), and they had lowest percentage on high ratings. 
+
+```{r}
+
+df<-ggplot2movies::movies
+df<- df %>% 
+  select(title,year,length,rating, Action, Animation, Comedy, Drama, Documentary, Romance) %>%  
+  filter(length < 130 & length >= 80) %>% 
+  mutate(rating_range=cut(rating,breaks=c(0,5, 6.5, 7.5,8.5,10),labels=c("below 5.0","5.0-6.5","6.5-7.5","7.5-8.5","above 8.5"),right=FALSE,include.lowest=TRUE))%>%
+  pivot_longer(cols = 5:10, names_to = "genres",values_to = "value")%>%
+  filter(value == 1)%>%
+  select(-value)
+
+df_00to10<-df %>% 
+  filter(year < 2010 & year >= 2000)  
+
+
+```
+
+```{r}
+df_percent <- df_00to10 %>%  
+  group_by(rating_range,genres) %>%
+  count() %>%
+  ungroup() %>%
+  group_by(genres) %>%
+  #Calculate proportion
+  mutate(percentage = n / sum (n))
+
+#order by genres by "above 8.5"
+df_sorted <- filter(df_percent,rating_range == 'above 8.5')
+
+df_percent$genres <- factor(df_percent$genres, levels=unique(df_sorted$genres[order(df_sorted$percentage)]))
+
+ggplot(df_percent, aes(x = genres, 
+                y = percentage,
+                fill = fct_rev(rating_range))) + 
+  geom_col(position = "stack")+
+  coord_flip()+
+  ggtitle("rating of movies from 2000 to 2010")
+```
+
+
+To know that the ratings and the movie genres are not independent, we can have a Chi-squared test on the data.
+
+The null hypothesis: The ratings and the movie genres are not independent, which means there is no relationship between them. 
+
+The Chi-squared test gives a really small p-value, so it is almost impossible to obtain the data given the null hypothesis is true. Thus, we'd like to reject the null hypothesis and say that the ratings and the movie genres are correlated.
+
+
+```{r}
+df_percent1 <- df_percent %>% select(-percentage) %>% pivot_wider(names_from = genres, values_from = n)
+
+df_percent_ma <- as.matrix(df_percent1[,2:7])
+rownames(df_percent_ma) <- df_percent1$rating_range
+x<-chisq.test(df_percent_ma, correct = FALSE)
+x
+
+```
+
+
+Now, we can plot bar charts by decades, and we can observe similar patterns as above. The documentary movies always have relatively higher ratings, and the actions movies always have relatively worse performance on ratings.
+
+
+These findings are consistent with our expectations. We guessed that documentary movies may be easier to obtain a high rating, because audiences would easily resonate with this type of film which is more related to their real life, and audiences will be more tolerant of the visuals of documentary movies. However, many action movies are commercial films, which always have similar plot and mode. Thus the audience may be more likely to get bored and have higher requirements for special effects to give a high rating.
+
+
+```{r}
+df_90to00<-df %>% filter(year < 2000 & year >= 1990) 
+df_80to90<-df %>% filter(year < 1990 & year >= 1980) 
+df_70to80<-df %>% filter(year < 1980 & year >= 1970)
+
+g1<-ggplot(df_percent, aes(x = genres, 
+                y = percentage,
+                fill = fct_rev(rating_range))) + 
+  geom_col(position = "stack",show.legend = FALSE)+
+  coord_flip()+
+  ggtitle("2000 to 2005")
+
+df_percent <- df_90to00 %>%  
+  group_by(rating_range,genres) %>%
+  count() %>%
+  ungroup() %>%
+  group_by(genres) %>%
+  #Calculate proportion
+  mutate(percentage = n / sum (n))
+
+#order by genres by "above 8.5"
+df_sorted <- filter(df_percent,rating_range == 'above 8.5')
+
+df_percent$genres <- factor(df_percent$genres, levels=unique(df_sorted$genres[order(df_sorted$percentage)]))
+
+g2<-ggplot(df_percent, aes(x = genres,y = percentage,fill = fct_rev(rating_range))) + 
+  geom_col(position = "stack",show.legend = FALSE)+
+  coord_flip()+
+  ggtitle("1990 to 2000")
+
+df_percent <- df_80to90 %>%  
+  group_by(rating_range,genres) %>%
+  count() %>%
+  ungroup() %>%
+  group_by(genres) %>%
+  mutate(percentage = n / sum (n))
+
+#order by genres by "above 8.5"
+df_sorted <- filter(df_percent,rating_range == 'above 8.5')
+
+df_percent$genres <- factor(df_percent$genres, levels=unique(df_sorted$genres[order(df_sorted$percentage)]))
+
+g3<-ggplot(df_percent, aes(x = genres, y = percentage,fill = fct_rev(rating_range))) + 
+  geom_col(position = "stack",show.legend = FALSE)+
+  coord_flip()+
+  ggtitle("1980 to 1990")
+
+df_percent <- df_70to80 %>%  
+  group_by(rating_range,genres) %>%
+  count() %>%
+  ungroup() %>%
+  group_by(genres) %>%
+  mutate(percentage = n / sum (n))
+
+#order by genres by "above 8.5"
+df_sorted <- filter(df_percent,rating_range == 'above 8.5')
+
+df_percent$genres <- factor(df_percent$genres, levels=unique(df_sorted$genres[order(df_sorted$percentage)]))
+
+g4<-ggplot(df_percent, aes(x = genres, y = percentage,fill = fct_rev(rating_range))) + 
+  geom_col(position = "stack",show.legend = FALSE)+
+  coord_flip()+
+  ggtitle("1970 to 1980")
+
+
+
+grid.arrange(g1,g2,g3,g4)
+
+```
+
+Finally, without consider release year and length, the same conclusion can be drawn from the boxplots of all data.
+
+```{r}
+ggplot(df, aes(x=reorder(genres, rating, median),y=rating)) +
+  geom_boxplot() +
+  coord_flip() +
+  ggtitle("Multiple boxplots of movies rating according to genres") +
+  labs(y="rating", x="genres")
+```
+
+
