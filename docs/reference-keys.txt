@@ -7,5 +7,8 @@ sources
 cleaning-transformation
 missing-value-analysis
 results
+relationship-between-movie-length-and-rating
+relationship-between-movie-release-time-and-rating
+relationship-between-movie-genre-and-rating
 interactive-component
 conclusion
