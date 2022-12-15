@@ -302,4 +302,51 @@ ggplot(df, aes(x=reorder(genres, rating, median),y=rating)) +
   labs(y="rating", x="genres")
 ```
 
+To have a more objective and accurate conclusion, we look at the second dataset to see whether there is any different result we would get by the rating and genres.
 
+Note: this data uses a 5-star rating instead of 10, so 5/5 is the best rating.
+
+```{r}
+#read files
+df_mean_rating <- read.csv('average_rating_byMID.csv')
+```
+
+```{r, warning=FALSE, message=FALSE}
+
+df_genres <- df_mean_rating %>%
+  separate_rows(genres)
+
+df_genres <- df_genres %>% filter(genres != "Noir" & genres != "Fi" & genres != "IMAX")
+
+#Rename
+df_genres$genres[df_genres$genres == "Film"] <- "Film-Noir"
+df_genres$genres[df_genres$genres == "Sci"] <- "Sci-Fi"
+
+```
+
+
+We make boxplots by genres and order by their median in decreasing order from top to bottom. For each genre, the corresponding boxplot gives the distribution of ratings for all movies of this movie genre. We can see that the top three movies with highest median rating are Documentary, Film-Noir, and War. And the lowest three are Horror, Action, and Fantasy. We also observe that the top three movies are all have higher first-quantile and third-quantile values, which means that their overall ratings are generally high. 
+
+
+```{r}
+ggplot(df_genres, aes(x=reorder(genres, average_rating, median),y=average_rating)) +
+  geom_boxplot() +
+  coord_flip() +
+  ggtitle("Multiple boxplots of movies rating according to genres") +
+  labs(y="rating", x="genres")
+```
+
+Then, for each genre, we calculate the average ratings for all movies of this genre and give the Cleveland Dot Plot. From the Cleveland Dot Plot, the average rating of each genre are clustered between 2.9 and 3.6. We observed that the top four highest-rated genres are Documenary, War, Film-Noir, and Animation. And the three lowest-rated genres are Musical, Action, and Horror. 
+
+The result from this dataset is almost same as the findings from **IMDb Datasets**, the documentary movies can usually get a higher score, which we have an average on 3.6 here. On the other hand, the action movies (average rating around 3.0) get lower rating more easier.
+
+
+```{r, warning=FALSE, message=FALSE}
+by_genre <- df_genres %>% group_by(genres) %>%
+  summarise(rating_mean = mean(average_rating))
+
+ggplot(by_genre, aes(x = rating_mean, y = fct_reorder(genres, rating_mean))) +
+  geom_point() +
+  labs(x = "Average Rating", y = "Genres", title = "Average Ratings by Genres")
+
+```
