@@ -126,23 +126,23 @@
 <p>We start by plotting the following frequency histogram to see the distribution of the data, we observe that</p>
 <ul>
 <li>We would expect that a standard movies have length around 90 to 120 minutes, but the plot shows a lot of outliers
-<img src="finalproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /></li>
+<img src="finalproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></li>
 </ul>
 <p>We decide to remove the those outliers (those outside fences).
-<img src="finalproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<img src="finalproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>From the scatter plot, we can observe that there’s a positive correlation between movie length and rating</p>
 <ul>
 <li>Movies with length around 50 to 75 minutes have ratings all over the place</li>
 <li>Movies with length longer than 125 minutes have higher ratings in general</li>
 <li>Movies with exceptionally high ratings (&gt; 8) have all kinds of length</li>
 </ul>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>Same conclusion can be drawn if we facet by movie genre</p>
 <ul>
 <li>There seems to be a positive relationship between movie length and ratings (especially for “Action”, “Comedy”, “Drama”)</li>
 <li>Documentary and Animation does not show positive correlation</li>
 </ul>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 </div>
 <div id="relationship-between-movie-release-time-and-rating" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Relationship between movie release time and rating<a href="results.html#relationship-between-movie-release-time-and-rating" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -150,17 +150,17 @@
 <ul>
 <li>The distribution of movies by year is left-skewed (most of the movies in the dataset is released after 1990)</li>
 </ul>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>To inspect the relationship between ratings and release year, we decide to first round <code>year</code> into <code>decade</code> (e.g., 1990s means any year from 1990 to 1999), we can observe from the boxplot that movies released earlier than 1950s seems to have higher median rating than more recent movies. But recent movies have larger spread than earlier movies with respect to reatings.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>Same conclusion can be drawn from the ridgeline plot.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 </div>
 <div id="relationship-between-movie-genre-and-rating" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Relationship between movie genre and rating<a href="results.html#relationship-between-movie-genre-and-rating" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To reduce the impact of other factor, we mainly focus on the standard movies that have length between 90 to 120 minutes and were released between 2000 and 2010.</p>
 <p>We order the genres in decreasing order of high rating (above 8.5 points) percentage from top to bottom. We can observe that over 10 percent Documentary movies obtained ratings above 8.5 out of 10, which is a high proportion comparing to other genres. Also, it is obvious that only a small percentage of Documentary movies obtained low rating (below 5 points). By contrast, nearly 40% of Action Movies get low ratings(below 5 points), and they had lowest percentage on high ratings.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>To know that the ratings and the movie genres are not independent, we can have a Chi-squared test on the data.</p>
 <p>The null hypothesis: The ratings and the movie genres are not independent, which means there is no relationship between them.</p>
 <p>The Chi-squared test gives a really small p-value, so it is almost impossible to obtain the data given the null hypothesis is true. Thus, we’d like to reject the null hypothesis and say that the ratings and the movie genres are correlated.</p>
@@ -171,9 +171,16 @@
 ## X-squared = 761.63, df = 20, p-value &lt; 2.2e-16</code></pre>
 <p>Now, we can plot bar charts by decades, and we can observe similar patterns as above. The documentary movies always have relatively higher ratings, and the actions movies always have relatively worse performance on ratings.</p>
 <p>These findings are consistent with our expectations. We guessed that documentary movies may be easier to obtain a high rating, because audiences would easily resonate with this type of film which is more related to their real life, and audiences will be more tolerant of the visuals of documentary movies. However, many action movies are commercial films, which always have similar plot and mode. Thus the audience may be more likely to get bored and have higher requirements for special effects to give a high rating.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <p>Finally, without consider release year and length, the same conclusion can be drawn from the boxplots of all data.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>To have a more objective and accurate conclusion, we look at the second dataset to see whether there is any different result we would get by the rating and genres.</p>
+<p>Note: this data uses a 5-star rating instead of 10, so 5/5 is the best rating.</p>
+<p>We make boxplots by genres and order by their median in decreasing order from top to bottom. For each genre, the corresponding boxplot gives the distribution of ratings for all movies of this movie genre. We can see that the top three movies with highest median rating are Documentary, Film-Noir, and War. And the lowest three are Horror, Action, and Fantasy. We also observe that the top three movies are all have higher first-quantile and third-quantile values, which means that their overall ratings are generally high.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p>Then, for each genre, we calculate the average ratings for all movies of this genre and give the Cleveland Dot Plot. From the Cleveland Dot Plot, the average rating of each genre are clustered between 2.9 and 3.6. We observed that the top four highest-rated genres are Documenary, War, Film-Noir, and Animation. And the three lowest-rated genres are Musical, Action, and Horror.</p>
+<p>The result from this dataset is almost same as the findings from <strong>IMDb Datasets</strong>, the documentary movies can usually get a higher score, which we have an average on 3.6 here. On the other hand, the action movies (average rating around 3.0) get lower rating more easier.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 
 </div>
 </div>
